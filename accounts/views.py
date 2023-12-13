@@ -28,6 +28,8 @@ class RegisterView(APIView):
                 'data': user,
                 'message': f"Hi {user['first_name']} thanks for signing up, a passcode has been send to your email, please verify first!",
             }, status=status.HTTP_201_CREATED)
+        
+        logger_api.info("Register Failed "+request.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

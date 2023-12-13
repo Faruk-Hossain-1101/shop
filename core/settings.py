@@ -157,3 +157,51 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+if not os.path.exists('log'):
+   os.makedirs('log')
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    
+    "formatters": {
+        "standard": {
+            "format": "%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+        }
+    },
+
+    "handlers": {
+        "console":{
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": 'standard',
+        },
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, 'log/info.log'),
+            "formatter": 'standard',
+        },
+        "api": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, 'log/api.log'),
+            "formatter": 'standard',
+        },
+
+    },
+
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "api": {
+            "handlers": ["api"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
